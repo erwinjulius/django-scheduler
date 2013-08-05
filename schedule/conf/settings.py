@@ -15,7 +15,12 @@ except ValueError:
 except ValueError:
     raise ImproperlyConfigured("FIRST_DAY_OF_WEEK must be an integer between 0 and 6")
 
-AUTH_USER_MODEL = settings.AUTH_USER_MODEL
+
+# user model is automacally added to events on creation. You must inform the model used for user identification in your project.
+#  Usually AUTH_USER_MODEL. If it is not the same model returned on request.user, it will not work and you might fix it on your project before.
+EVENT_CREATOR_MODEL = settings.EVENT_CREATOR_MODEL
+
+
 # whether to display cancelled occurrences
 # (if they are displayed then they have a css class "cancelled")
 # this controls behaviour of Period.classify_occurrence method
