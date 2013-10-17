@@ -2,6 +2,9 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
+
+SETTINGS = getattr(settings, 'SCHEDULE_SETTINGS', {})
+
 fdow_default = 0 # Sunday
 
 # Look for FIRST_DAY_OF_WEEK as a locale setting
@@ -50,3 +53,5 @@ if not GET_EVENTS_FUNC:
 
 # URL to redirect to to after an occurrence is canceled
 OCCURRENCE_CANCEL_REDIRECT = getattr(settings, 'OCCURRENCE_CANCEL_REDIRECT', None)
+
+USE_JSONFIELD = SETTINGS.get('USE_JSONFIELD', False)
