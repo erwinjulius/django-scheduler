@@ -359,6 +359,7 @@ class Occurrence(models.Model):
     cancelled = models.BooleanField(_("cancelled"), default=False)
     original_start = models.DateTimeField(_("original start"))
     original_end = models.DateTimeField(_("original end"))
+    done=models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("occurrence")
