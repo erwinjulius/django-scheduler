@@ -1,12 +1,34 @@
-Build Status
-<p><img src="https://travis-ci.org/llazzaro/django-scheduler.png" alt="travis-build-status" /></p>
-
-
-
+h1. Build Status
+!https://travis-ci.org/llazzaro/django-scheduler.svg?branch=master!:https://travis-ci.org/llazzaro/django-scheduler !https://travis-ci.org/llazzaro/django-scheduler!  !https://coveralls.io/repos/llazzaro/django-scheduler/badge.png(Coverage Status)!  !https://coveralls.io/r/llazzaro/django-scheduler! !https://gemnasium.com/llazzaro/django-scheduler.png(Dependency Status)! !https://gemnasium.com/llazzaro/django-scheduler! !https://pypip.in/v/django-scheduler/badge.png(Latest PyPI version)! !https://crate.io/packages/django-scheduler! !https://pypip.in/d/django-scheduler/badge.png(umber of PyPI downloads)!  !https://crate.io/packages/django-scheduler!  !https://pypip.in/license/django-scheduler/badge.png! !https://pypip.in/egg/django-scheduler/badge.png! !https://pypip.in/wheel/django-scheduler/badge.png!
 
 h1. Django-scheduler
 
-A calendaring/scheduling application, featuring:
+Full Calendar examples
+!https://raw.githubusercontent.com/llazzaro/django-scheduler-sample/master/scheduler.png!:http://django-scheduler.leonardolazzaro.com/fullcalendar/
+
+Monthly View (static)
+!https://raw.githubusercontent.com/llazzaro/django-scheduler-sample/master/monthly_view.png!:http://django-scheduler.leonardolazzaro.com/schedule/calendar/month/example/
+
+Daily View (static)
+!https://raw.githubusercontent.com/llazzaro/django-scheduler-sample/master/daily.png!:http://django-scheduler.leonardolazzaro.com/schedule/calendar/daily/example/
+
+h2. Online examples
+
+"Online Demo":http://django-scheduler.leonardolazzaro.com
+"Fullcalendar Example":http://django-scheduler.leonardolazzaro.com/fullcalendar/
+
+h2. Information
+
+"Documentation":http://django-scheduler.readthedocs.org/en/latest/
+"Wiki":https://github.com/llazzaro/django-scheduler/wiki
+
+"Demo Source":https://github.com/llazzaro/django-scheduler-sample
+
+h2. Installation
+
+<pre>pip install django-scheduler</pre>
+
+h2. Features
 
  * one-time and recurring events
  * calendar exceptions (occurrences changed or cancelled)
@@ -14,60 +36,64 @@ A calendaring/scheduling application, featuring:
  * relations of events to generic objects
  * ready to use, nice user interface
  * view day, week, month, three months and year
- * project sample which can be launched immediately and reused in your project
 
-See see "wiki page":http://wiki.github.com/thauber/django-schedule for more.
+h2. Configuration
 
-h2. Installation
+edit your settings.py
 
-Download the code; put in into your project's directory or run <pre>python setup.py install</pre> to install system-wide.
+add to *INSTALLED_APPS*:
+    <pre>'schedule'</pre>
 
-REQUIREMENTS: python-vobject (comes with most distribution as a package).
+add to *TEMPLATE_CONTEXT_PROCESSORS*:
+    <pre>"django.core.context_processors.request"</pre>
 
-h2. Settings.py
+h4. Optional Settings
 
-h3. REQUIRED
-
-INSTALLED_APPS - add:
-    'schedule'
-
-TEMPLATE_CONTEXT_PROCESSORS - add:
-    "django.core.context_processors.request"
-
-h4. Optional
-
-FIRST_DAY_OF_WEEK
+*FIRST_DAY_OF_WEEK*
 
 This setting determines which day of the week your calendar begins on if your locale doesn't already set it. Default is 0, which is Sunday.
 
-OCCURRENCE_CANCEL_REDIRECT
+*OCCURRENCE_CANCEL_REDIRECT*
 
 This setting controls the behavior of :func:`Views.get_next_url`. If set, all calendar modifications will redirect here (unless there is a `next` set in the request.)
 
-SHOW_CANCELLED_OCCURRENCES
+*SHOW_CANCELLED_OCCURRENCES*
 
 This setting controls the behavior of :func:`Period.classify_occurence`. If True, then occurences that have been cancelled will be displayed with a css class of canceled, otherwise they won't appear at all.
 
 Defaults to False
 
-CHECK_PERMISSION_FUNC
+*CHECK_PERMISSION_FUNC*
 
-This setting controls the callable used to determine if a user has permission to edit an event or occurance. The callable must take the object and the user and return a boolean.
+_deprecated_
+
+Should be replaced with CHECK_EVENT_PERM_FUNC
+
+*CHECK_EVENT_PERM_FUNC*
+
+This setting controls the callable used to determine if a user has permission to edit an event or occurrence. The callable must take the object (event) and the user and return a boolean.
 
 Default:
-<pre>
-    check_edit_permission(ob, user):
-        return user.is_authenticated()
+<pre>check_edit_permission(ob, user):
+    return user.is_authenticated()
 </pre>
 
 If ob is None, then the function is checking for permission to add new events
 
-GET_EVENTS_FUNC
+*CHECK_CALENDAR_PERM_FUNC*
+
+This setting controls the callable used to determine if a user has permission to add, update or delete an events in specific calendar. The callable must take the object (calendar) and the user and return a boolean.
+
+Default:
+<pre>check_edit_permission(ob, user):
+    return user.is_authenticated()
+</pre>
+
+*GET_EVENTS_FUNC*
 
 This setting controls the callable that gets all events for calendar display. The callable must take the request and the calendar and return a `QuerySet` of events. Modifying this setting allows you to pull events from multiple calendars or to filter events based on permissions
 
 Default:
-<pre>
-    get_events(request, calendar):
-        return calendar.event_set.all()
+<pre>get_events(request, calendar):
+    return calendar.event_set.all()
 </pre>
